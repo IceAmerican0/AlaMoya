@@ -6,5 +6,10 @@
 //
 
 import Foundation
+import Combine
 
-
+public class API {
+    func request() {
+        
+    }
+}
