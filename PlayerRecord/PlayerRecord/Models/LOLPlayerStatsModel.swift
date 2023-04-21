@@ -7,41 +7,42 @@
 
 import Foundation
 
-public enum LOLPlayerStatsModel: APIProtocol {
-    public struct Request: APIRequest {
-        public var dataBody: Body
-        
-        public struct Body: Encodable {
-            let playerID: String
-            
-            public init(
-                playerID: String
-            ) {
-                self.playerID = playerID
-            }
-        }
+public enum LOLPlayerStatsModel {
+    public struct Request: Encodable {
+        let summonerName: String
         
         public init(
-            dataBody: Body
+            summonerName: String
         ) {
-            self.dataBody = dataBody
+            self.summonerName = summonerName
         }
     }
     
-    public struct Response: APIResponse {
-        public var dataBody: Body
+    public struct Response: Decodable {
+        public let id: String?
+        public let accountId: String?
+        public let puuid: String?
+        public let name: String?
+        public let profileIconId: Int?
+        public let revisionDate: Int?
+        public let summonerLevel: Int?
         
-        public struct Body: Decodable {
-            public let playerID: String?
-            public let player: String?
-            
-            public init(
-                playerID: String,
-                player: String
-            ) {
-                self.playerID = playerID
-                self.player = player
-            }
+        public init(
+            id: String,
+            accountId: String,
+            puuid: String,
+            name: String,
+            profileIconId: Int,
+            revisionDate: Int,
+            summonerLevel: Int
+        ) {
+            self.id = id
+            self.accountId = accountId
+            self.puuid = puuid
+            self.name = name
+            self.profileIconId = profileIconId
+            self.revisionDate = revisionDate
+            self.summonerLevel = summonerLevel
         }
     }
 }
