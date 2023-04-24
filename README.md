@@ -1,5 +1,11 @@
 # Project
 
+OP.GG / r6Tracker 등과 같은 전적검색앱을 만들어 나갈 예정.
+
+통신 API 구축 중 JSON 통신 관련 제대로 공부해보기위해 Alamofire/Moya/kakaoSDK 소스 파보는(삽질)중.
+
+
+
 Player Info
 
 ![image](https://user-images.githubusercontent.com/72787036/233390331-a364092e-43de-4493-992b-2e6d303cf8f7.png)
