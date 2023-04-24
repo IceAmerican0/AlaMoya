@@ -10,6 +10,8 @@
 		5CF58EA729EFB13A00B623F5 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EA629EFB13A00B623F5 /* APIProtocol.swift */; };
 		5CF58EAE29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EAD29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift */; };
 		5CF58EB429F24EB600B623F5 /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EB329F24EB600B623F5 /* HTTPHeaders.swift */; };
+		5CF58EB629F6388B00B623F5 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EB529F6388B00B623F5 /* ParameterEncoding.swift */; };
+		5CF58EB829F6394E00B623F5 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EB729F6394E00B623F5 /* NetworkError.swift */; };
 		5CFFD00129EE130400C86CBD /* PlayerRecordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFD00029EE130400C86CBD /* PlayerRecordApp.swift */; };
 		5CFFD00329EE130400C86CBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFD00229EE130400C86CBD /* ContentView.swift */; };
 		5CFFD00529EE130500C86CBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CFFD00429EE130500C86CBD /* Assets.xcassets */; };
@@ -43,6 +45,8 @@
 		5CF58EAD29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LOLPlayerStatsModel.swift; sourceTree = "<group>"; };
 		5CF58EAF29EFCF1C00B623F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5CF58EB329F24EB600B623F5 /* HTTPHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaders.swift; sourceTree = "<group>"; };
+		5CF58EB529F6388B00B623F5 /* ParameterEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
+		5CF58EB729F6394E00B623F5 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		5CFFCFFD29EE130400C86CBD /* PlayerRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayerRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CFFD00029EE130400C86CBD /* PlayerRecordApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRecordApp.swift; sourceTree = "<group>"; };
 		5CFFD00229EE130400C86CBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 				5CFFD02E29EE90CF00C86CBD /* URLs.swift */,
 				5CF58EA629EFB13A00B623F5 /* APIProtocol.swift */,
 				5CF58EB329F24EB600B623F5 /* HTTPHeaders.swift */,
+				5CF58EB529F6388B00B623F5 /* ParameterEncoding.swift */,
+				5CF58EB729F6394E00B623F5 /* NetworkError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -300,9 +306,11 @@
 			files = (
 				5CF58EAE29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift in Sources */,
 				5CFFD00329EE130400C86CBD /* ContentView.swift in Sources */,
+				5CF58EB629F6388B00B623F5 /* ParameterEncoding.swift in Sources */,
 				5CF58EB429F24EB600B623F5 /* HTTPHeaders.swift in Sources */,
 				5CFFD02D29EE139D00C86CBD /* API.swift in Sources */,
 				5CFFD00129EE130400C86CBD /* PlayerRecordApp.swift in Sources */,
+				5CF58EB829F6394E00B623F5 /* NetworkError.swift in Sources */,
 				5CF58EA729EFB13A00B623F5 /* APIProtocol.swift in Sources */,
 				5CFFD02F29EE90CF00C86CBD /* URLs.swift in Sources */,
 			);
