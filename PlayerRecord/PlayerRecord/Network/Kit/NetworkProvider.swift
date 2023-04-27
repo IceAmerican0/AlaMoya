@@ -12,6 +12,8 @@ public typealias Completion = (_ result: Result<Response, NetworkError>) -> Void
 
 public typealias ProgressBlock = (_ progress: ProgressResponse) -> Void
 
+public typealias Method = HTTPMethod
+
 public struct ProgressResponse {
     public let response: Response?
     public let progressObject: Progress?
@@ -41,10 +43,20 @@ public protocol NetworkProviderType: AnyObject {
 }
 
 open class NetworkProvider<Target: TargetType>: NetworkProviderType {
+    public typealias StubClosure = (Target) -> StubBehavior
+    public typealias EndpointClosure = (Target) -> Endpoint
+    
+    public let stubClousure: StubClosure
+    public let endpointClosure: EndpointClosure
+    public let trackInflights: Bool
     let callbackQueue: DispatchQueue?
     
     public init(callbackQueue: DispatchQueue?) {
         self.callbackQueue = callbackQueue
+    }
+    
+    open func endpoint(_ token: Target) -> Endpoint {
+        endpointClosure(token)
     }
     
     func requestPublisher(_ target: Target, callbackQueue: DispatchQueue? = nil) -> AnyPublisher<Response, NetworkError> {
@@ -76,10 +88,62 @@ open class NetworkProvider<Target: TargetType>: NetworkProviderType {
 public extension NetworkProvider {
     func requestNormal(_ target: Target, callbackQueue: DispatchQueue?, progress: ProgressBlock?, completion: @escaping Completion) -> Cancellable {
         let cancellableToken = CancellableWrapper()
+        let endpoint = self.endpoint(target)
+        let stubBehavior = self.stubClousure(target)
+        
+        let pluginsWithCompletion: Completion = { result in
+            completion(result)
+        }
+        
+        if trackInflights {
+            
+        }
+        
+        let performNetworking = { (requestResult: Result<URLRequest, NetworkError>) in
+            if cancellableToken.isCancelled {
+                Completion(.failure(error))
+            }
+            
+            cancellableToken.innerCancellable = self.performRequest(target, request: request, callbackQueue: callbackQueue, progress: progress, completion: networkCompletion, endpoint: endpoint, stubBehavior: stubBehavior)
+        }
         
         return cancellableToken
     }
+    
+    func sendRequest(_ target: Target, request: URLRequest, callbackQueue: DispatchQueue?, progress: ProgressBlock?, completion: @escaping Completion) -> CancellableToken
+    
+    private func performRequest(_ target: Target, request: URLRequest, callbackQueue: DispatchQueue?, progress: ProgressBlock?, completion: @escaping Completion, endpoint: Endpoint, stubBehavior: StubBehavior) -> Cancellable {
+        switch stubBehavior {
+        case .never:
+            switch endpoint.task {
+            case .requestData:
+                return self.sendRequest
+            case .requestJSONEncodable(_):
+                <#code#>
+            }
+        default:
+            return
+        }
+    }
 }
+
+// MARK: Stubbing
+
+public enum StubBehavior {
+    case never
+    case immediate
+    case delayed(seconds: TimeInterval)
+}
+
+public extension NetworkProvider {
+    final class func neverStub(_: Target) -> StubBehavior { .never }
+    final class func immediatelyStub(_: Target) -> StubBehavior { .immediate }
+    final class func delayedStub(seconds : TimeInterval) -> (Target) -> StubBehavior {
+        return { _ in .delayed(seconds: seconds) }
+    }
+}
+
+// MARK: Requestable
 
 internal typealias RequestableCompletion = (HTTPURLResponse?, URLRequest?, Data?, Swift.Error?) -> Void
 

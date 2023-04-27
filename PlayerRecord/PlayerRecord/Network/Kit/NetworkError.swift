@@ -21,6 +21,9 @@ public enum NetworkError: Error {
     case multipartEncodingFailed(reason: MultipartEncodingFailureReason)
     case parameterEncodingFailed(reason: ParameterEncodingFailureReason)
     case invalidURL(url: URLConvertible)
+    case requestMapping(String)
+    case encodableMapping(Swift.Error)
+//    case underlying(Swift.Error, Response?)
 }
 
 
@@ -77,7 +80,9 @@ extension NetworkError {
             return reason.underlyingError
         case let .parameterEncodingFailed(reason):
             return reason.underlyingError
-        case .invalidURL:
+        case .invalidURL,
+             .encodableMapping,
+             .requestMapping:
             return nil
         }
     }
@@ -122,6 +127,10 @@ extension NetworkError: LocalizedError {
             return reason.localizedDescription
         case let .invalidURL(url):
             return "URL is not valid: \(url)"
+        case .requestMapping:
+            return "Failed to map Endpoint to a URLRequest."
+        case .encodableMapping:
+            return "Failed to encode Encodable object into data."
         }
     }
 }
