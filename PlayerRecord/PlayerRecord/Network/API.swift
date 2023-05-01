@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-private let LOLToken = ""
+private let LOLToken = "RGAPI-f405f321-7d1e-4a45-b2ee-e75d1eeb8140"
 private let VALToken = ""
 
 public typealias Parameters = [String:Any]

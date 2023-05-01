@@ -51,6 +51,9 @@ open class NetworkProvider<Target: TargetType>: NetworkProviderType {
     public let trackInflights: Bool
     let callbackQueue: DispatchQueue?
     
+    @Atomic
+    var internalInflightRequests: [Endpoint: [Completion]] = [:]
+    
     public init(callbackQueue: DispatchQueue?) {
         self.callbackQueue = callbackQueue
     }
@@ -101,7 +104,7 @@ public extension NetworkProvider {
         
         let performNetworking = { (requestResult: Result<URLRequest, NetworkError>) in
             if cancellableToken.isCancelled {
-                Completion(.failure(error))
+                Completion(.failure(NetworkError))
             }
             
             cancellableToken.innerCancellable = self.performRequest(target, request: request, callbackQueue: callbackQueue, progress: progress, completion: networkCompletion, endpoint: endpoint, stubBehavior: stubBehavior)

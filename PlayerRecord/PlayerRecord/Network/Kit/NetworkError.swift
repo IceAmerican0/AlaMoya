@@ -20,6 +20,7 @@ public enum NetworkError: Error {
     
     case multipartEncodingFailed(reason: MultipartEncodingFailureReason)
     case parameterEncodingFailed(reason: ParameterEncodingFailureReason)
+    case explicitlyCancelled
     case invalidURL(url: URLConvertible)
     case requestMapping(String)
     case encodableMapping(Swift.Error)
@@ -80,7 +81,8 @@ extension NetworkError {
             return reason.underlyingError
         case let .parameterEncodingFailed(reason):
             return reason.underlyingError
-        case .invalidURL,
+        case .explicitlyCancelled,
+             .invalidURL,
              .encodableMapping,
              .requestMapping:
             return nil
@@ -125,6 +127,8 @@ extension NetworkError: LocalizedError {
             return reason.localizedDescription
         case let .parameterEncodingFailed(reason):
             return reason.localizedDescription
+        case .explicitlyCancelled:
+            return "Request explicitly cancelled."
         case let .invalidURL(url):
             return "URL is not valid: \(url)"
         case .requestMapping:
