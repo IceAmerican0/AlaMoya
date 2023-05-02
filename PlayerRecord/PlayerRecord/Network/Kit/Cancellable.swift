@@ -48,7 +48,7 @@ public final class CancellableToken: Cancellable, CustomDebugStringConvertible {
     
     public init(action: @escaping () -> Void) {
         self.cancelAction = action
-        self.reqeust = nil
+        self.request = nil
     }
     
     init(request: Request) {
@@ -56,5 +56,13 @@ public final class CancellableToken: Cancellable, CustomDebugStringConvertible {
         self.cancelAction = {
             request.cancel()
         }
+    }
+    
+    public var debugDescription: String {
+        guard let _ = self.request else {
+            return "Empty Request"
+        }
+        
+        return "Cancellable -> request debugDescription"
     }
 }

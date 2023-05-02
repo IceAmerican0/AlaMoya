@@ -54,6 +54,8 @@ open class NetworkProvider<Target: TargetType>: NetworkProviderType {
     @Atomic
     var internalInflightRequests: [Endpoint: [Completion]] = [:]
     
+    open var inflightRequests: [Endpoint: [Completion]] { internalInflightRequests }
+    
     public init(callbackQueue: DispatchQueue?) {
         self.callbackQueue = callbackQueue
     }
@@ -105,6 +107,26 @@ public extension NetworkProvider {
         let performNetworking = { (requestResult: Result<URLRequest, NetworkError>) in
             if cancellableToken.isCancelled {
                 Completion(.failure(NetworkError))
+                return
+            }
+            
+            var request: URLRequest!
+            
+            switch requestResult {
+            case .success(let urlRequest):
+                request = urlRequest
+            case .failure(let error):
+                pluginsWithCompletion(.failure(error))
+                return
+            }
+            
+            let networkCompletion: Completion = { result in
+                if self.trackInflights {
+                    self.inflightRequests[endpoint]?.forEach { $0(result) }
+                    self.internalInflightRequests.removeValue(forKey: endpoint)
+                } else {
+                    pluginsWithCompletion(result)
+                }
             }
             
             cancellableToken.innerCancellable = self.performRequest(target, request: request, callbackQueue: callbackQueue, progress: progress, completion: networkCompletion, endpoint: endpoint, stubBehavior: stubBehavior)
@@ -113,7 +135,9 @@ public extension NetworkProvider {
         return cancellableToken
     }
     
-    func sendRequest(_ target: Target, request: URLRequest, callbackQueue: DispatchQueue?, progress: ProgressBlock?, completion: @escaping Completion) -> CancellableToken
+    func sendRequest(_ target: Target, request: URLRequest, callbackQueue: DispatchQueue?, progress: ProgressBlock?, completion: @escaping Completion) -> CancellableToken {
+        let interceptor = self.interceptor(target: target)
+    }
     
     private func performRequest(_ target: Target, request: URLRequest, callbackQueue: DispatchQueue?, progress: ProgressBlock?, completion: @escaping Completion, endpoint: Endpoint, stubBehavior: StubBehavior) -> Cancellable {
         switch stubBehavior {
@@ -128,6 +152,10 @@ public extension NetworkProvider {
             return
         }
     }
+}
+
+private extension NetworkProvider {
+    private func interceptor(target: Target) -> 
 }
 
 // MARK: Stubbing

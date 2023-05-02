@@ -9,7 +9,13 @@ import Foundation
 
 public class Request {
     
+    public let id: UUID
     public let underlyingQueue: DispatchQueue
+    public let serializationQueue: DispatchQueue
+    public let eventMonitor: EventMonitor?
+    public let interceptor: RequestInterceptor?
+    
+    public private(set) weak var delegate: RequestDelegate?
     
     @Protected
     fileprivate var mutableState = MutableState()
@@ -45,6 +51,19 @@ public class Request {
         set { $mutableState.error = newValue }
     }
     
+    init(id: UUID, underlyingQueue: DispatchQueue,
+         serializationQueue: DispatchQueue,
+         eventMonitor: EventMonitor?,
+         interceptor: RequestInterceptor?,
+         delegate: RequestDelegate) {
+        self.id = id
+        self.underlyingQueue = underlyingQueue
+        self.serializationQueue = serializationQueue
+        self.eventMonitor = eventMonitor
+        self.interceptor = interceptor
+        self.delegate = delegate
+    }
+    
     public enum State {
         case initialized
         case resumed
@@ -66,19 +85,6 @@ public class Request {
                 return true
             }
         }
-        
-        @discardableResult
-        public func cancel() -> Self {
-            $mutableState.write { mutableState in
-                guard mutableState.state.canTransitionTo(.cancelled) else { return }
-                
-                mutableState.state = .cancelled
-                
-                underlyingQueue.async { self.didCancel() }
-                
-                return self
-            }
-        }
     }
     
     struct MutableState {
@@ -92,6 +98,8 @@ public class Request {
         var finishHandlers: [() -> Void] = []
     }
     
+    
+    
     func didResume(){
         
     }
@@ -99,4 +107,29 @@ public class Request {
     func didResumeTask(_ task: URLSessionTask) {
         dispatchPrecondition(condition: .onQueue(underlyingQueue))
     }
+    
+    @discardableResult
+    public func cancel() -> Self {
+        $mutableState.write { mutableState in
+            guard mutableState.state.canTransitionTo(.cancelled) else { return }
+            
+            mutableState.state = .cancelled
+            
+            underlyingQueue.async { self.didCancel() }
+            
+            guard let task = mutableState.tasks.last, task.state != .completed else {
+                underlyingQueue
+            }
+        }
+        
+        return self
+    }
+}
+
+public class DataRequest: Request {
+    @Protected
+    private var mutableData: Data? = nil
+    
+    public let convertible: URLRequestConvertible
+    public var data: Data? { mutableData }
 }

@@ -21,6 +21,12 @@
 		5C1B6CAD29FA37120077BA00 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CAC29FA37120077BA00 /* HTTPMethod.swift */; };
 		5C1B6CAF29FA4DE10077BA00 /* URLRequest+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CAE29FA4DE10077BA00 /* URLRequest+Encoding.swift */; };
 		5C1B6CB129FA4E230077BA00 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CB029FA4E230077BA00 /* AnyEncodable.swift */; };
+		5C1B6CB32A00CB520077BA00 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CB22A00CB520077BA00 /* Session.swift */; };
+		5C1B6CB52A00CB9B0077BA00 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CB42A00CB9B0077BA00 /* SessionDelegate.swift */; };
+		5C1B6CB72A00CDA90077BA00 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CB62A00CDA90077BA00 /* Notifications.swift */; };
+		5C1B6CBA2A00CE6E0077BA00 /* RequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CB92A00CE6E0077BA00 /* RequestInterceptor.swift */; };
+		5C1B6CBC2A00D83C0077BA00 /* RedircetionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CBB2A00D83C0077BA00 /* RedircetionHandler.swift */; };
+		5C1B6CBE2A00D9A30077BA00 /* CachedResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CBD2A00D9A30077BA00 /* CachedResponseHandler.swift */; };
 		5CF58EA729EFB13A00B623F5 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EA629EFB13A00B623F5 /* APIProtocol.swift */; };
 		5CF58EAE29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EAD29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift */; };
 		5CF58EB429F24EB600B623F5 /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EB329F24EB600B623F5 /* HTTPHeaders.swift */; };
@@ -71,6 +77,12 @@
 		5C1B6CAC29FA37120077BA00 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		5C1B6CAE29FA4DE10077BA00 /* URLRequest+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Encoding.swift"; sourceTree = "<group>"; };
 		5C1B6CB029FA4E230077BA00 /* AnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
+		5C1B6CB22A00CB520077BA00 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		5C1B6CB42A00CB9B0077BA00 /* SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
+		5C1B6CB62A00CDA90077BA00 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		5C1B6CB92A00CE6E0077BA00 /* RequestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestInterceptor.swift; sourceTree = "<group>"; };
+		5C1B6CBB2A00D83C0077BA00 /* RedircetionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedircetionHandler.swift; sourceTree = "<group>"; };
+		5C1B6CBD2A00D9A30077BA00 /* CachedResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedResponseHandler.swift; sourceTree = "<group>"; };
 		5CF58EA629EFB13A00B623F5 /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		5CF58EAD29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LOLPlayerStatsModel.swift; sourceTree = "<group>"; };
 		5CF58EAF29EFCF1C00B623F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -121,6 +133,7 @@
 		5C1B6C9329F7A9AD0077BA00 /* Kit */ = {
 			isa = PBXGroup;
 			children = (
+				5C1B6CB82A00CE410077BA00 /* Session */,
 				5C1B6CB029FA4E230077BA00 /* AnyEncodable.swift */,
 				697AD78329FF963800FAD155 /* Atomic.swift */,
 				5C1B6C9629F7AA100077BA00 /* Cancellable.swift */,
@@ -142,6 +155,19 @@
 				5C1B6CAE29FA4DE10077BA00 /* URLRequest+Encoding.swift */,
 			);
 			path = Kit;
+			sourceTree = "<group>";
+		};
+		5C1B6CB82A00CE410077BA00 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				5C1B6CB22A00CB520077BA00 /* Session.swift */,
+				5C1B6CB42A00CB9B0077BA00 /* SessionDelegate.swift */,
+				5C1B6CB62A00CDA90077BA00 /* Notifications.swift */,
+				5C1B6CB92A00CE6E0077BA00 /* RequestInterceptor.swift */,
+				5C1B6CBB2A00D83C0077BA00 /* RedircetionHandler.swift */,
+				5C1B6CBD2A00D9A30077BA00 /* CachedResponseHandler.swift */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 		5CF58EA829EFB1F400B623F5 /* Models */ = {
@@ -363,11 +389,14 @@
 				5C1B6C9729F7AA100077BA00 /* Cancellable.swift in Sources */,
 				5CF58EAE29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift in Sources */,
 				5C1B6CAD29FA37120077BA00 /* HTTPMethod.swift in Sources */,
+				5C1B6CB52A00CB9B0077BA00 /* SessionDelegate.swift in Sources */,
 				5C1B6C9929F7BC1F0077BA00 /* NetworkPublisher.swift in Sources */,
 				697AD78429FF963800FAD155 /* Atomic.swift in Sources */,
 				5CFFD00329EE130400C86CBD /* ContentView.swift in Sources */,
 				5C1B6CA729F9082F0077BA00 /* ValidationType.swift in Sources */,
+				5C1B6CB72A00CDA90077BA00 /* Notifications.swift in Sources */,
 				5C1B6CA329F7CCFD0077BA00 /* NetworkProvidable.swift in Sources */,
+				5C1B6CBA2A00CE6E0077BA00 /* RequestInterceptor.swift in Sources */,
 				5C1B6C9F29F7C4790077BA00 /* Protected.swift in Sources */,
 				5C1B6CA929F908E10077BA00 /* Task.swift in Sources */,
 				5C1B6C9D29F7C29B0077BA00 /* Response.swift in Sources */,
@@ -380,7 +409,10 @@
 				5CF58EB829F6394E00B623F5 /* NetworkError.swift in Sources */,
 				5C1B6CAB29FA363C0077BA00 /* Endpoint.swift in Sources */,
 				5CF58EA729EFB13A00B623F5 /* APIProtocol.swift in Sources */,
+				5C1B6CB32A00CB520077BA00 /* Session.swift in Sources */,
 				5C1B6C9B29F7C2930077BA00 /* Request.swift in Sources */,
+				5C1B6CBC2A00D83C0077BA00 /* RedircetionHandler.swift in Sources */,
+				5C1B6CBE2A00D9A30077BA00 /* CachedResponseHandler.swift in Sources */,
 				5CFFD02F29EE90CF00C86CBD /* URLs.swift in Sources */,
 				5C1B6CA129F7CCF00077BA00 /* NetworkProvider.swift in Sources */,
 				5C1B6CB129FA4E230077BA00 /* AnyEncodable.swift in Sources */,
