@@ -21,6 +21,7 @@ open class SessionDelegate: NSObject {
     }
 }
 
+// TODO:
 protocol SessionStateProvider: AnyObject {
     func request(for task: URLSessionTask) -> Request?
 }

@@ -27,6 +27,7 @@
 		5C1B6CBA2A00CE6E0077BA00 /* RequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CB92A00CE6E0077BA00 /* RequestInterceptor.swift */; };
 		5C1B6CBC2A00D83C0077BA00 /* RedircetionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CBB2A00D83C0077BA00 /* RedircetionHandler.swift */; };
 		5C1B6CBE2A00D9A30077BA00 /* CachedResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CBD2A00D9A30077BA00 /* CachedResponseHandler.swift */; };
+		5C1B6CC22A0107B80077BA00 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B6CC12A0107B80077BA00 /* Validation.swift */; };
 		5CF58EA729EFB13A00B623F5 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EA629EFB13A00B623F5 /* APIProtocol.swift */; };
 		5CF58EAE29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EAD29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift */; };
 		5CF58EB429F24EB600B623F5 /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF58EB329F24EB600B623F5 /* HTTPHeaders.swift */; };
@@ -83,6 +84,7 @@
 		5C1B6CB92A00CE6E0077BA00 /* RequestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestInterceptor.swift; sourceTree = "<group>"; };
 		5C1B6CBB2A00D83C0077BA00 /* RedircetionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedircetionHandler.swift; sourceTree = "<group>"; };
 		5C1B6CBD2A00D9A30077BA00 /* CachedResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedResponseHandler.swift; sourceTree = "<group>"; };
+		5C1B6CC12A0107B80077BA00 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		5CF58EA629EFB13A00B623F5 /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		5CF58EAD29EFB2AB00B623F5 /* LOLPlayerStatsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LOLPlayerStatsModel.swift; sourceTree = "<group>"; };
 		5CF58EAF29EFCF1C00B623F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -133,7 +135,6 @@
 		5C1B6C9329F7A9AD0077BA00 /* Kit */ = {
 			isa = PBXGroup;
 			children = (
-				5C1B6CB82A00CE410077BA00 /* Session */,
 				5C1B6CB029FA4E230077BA00 /* AnyEncodable.swift */,
 				697AD78329FF963800FAD155 /* Atomic.swift */,
 				5C1B6C9629F7AA100077BA00 /* Cancellable.swift */,
@@ -142,17 +143,17 @@
 				5C1B6CAC29FA37120077BA00 /* HTTPMethod.swift */,
 				5CF58EB329F24EB600B623F5 /* HTTPHeaders.swift */,
 				5CF58EB529F6388B00B623F5 /* ParameterEncoding.swift */,
-				5C1B6C9A29F7C2930077BA00 /* Request.swift */,
-				5C1B6C9C29F7C29B0077BA00 /* Response.swift */,
 				5C1B6C9E29F7C4790077BA00 /* Protected.swift */,
 				5CF58EB729F6394E00B623F5 /* NetworkError.swift */,
 				5C1B6C9829F7BC1F0077BA00 /* NetworkPublisher.swift */,
 				5C1B6CA029F7CCF00077BA00 /* NetworkProvider.swift */,
 				5C1B6CA229F7CCFD0077BA00 /* NetworkProvidable.swift */,
 				5C1B6CA429F907DB0077BA00 /* TargetType.swift */,
-				5C1B6CA629F9082F0077BA00 /* ValidationType.swift */,
 				5C1B6CA829F908E10077BA00 /* Task.swift */,
 				5C1B6CAE29FA4DE10077BA00 /* URLRequest+Encoding.swift */,
+				5C1B6CB82A00CE410077BA00 /* Session */,
+				5C1B6CBF2A0107640077BA00 /* Request */,
+				5C1B6CC02A01076B0077BA00 /* Response */,
 			);
 			path = Kit;
 			sourceTree = "<group>";
@@ -163,11 +164,29 @@
 				5C1B6CB22A00CB520077BA00 /* Session.swift */,
 				5C1B6CB42A00CB9B0077BA00 /* SessionDelegate.swift */,
 				5C1B6CB62A00CDA90077BA00 /* Notifications.swift */,
-				5C1B6CB92A00CE6E0077BA00 /* RequestInterceptor.swift */,
 				5C1B6CBB2A00D83C0077BA00 /* RedircetionHandler.swift */,
 				5C1B6CBD2A00D9A30077BA00 /* CachedResponseHandler.swift */,
 			);
 			path = Session;
+			sourceTree = "<group>";
+		};
+		5C1B6CBF2A0107640077BA00 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				5C1B6C9A29F7C2930077BA00 /* Request.swift */,
+				5C1B6CB92A00CE6E0077BA00 /* RequestInterceptor.swift */,
+				5C1B6CC12A0107B80077BA00 /* Validation.swift */,
+				5C1B6CA629F9082F0077BA00 /* ValidationType.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		5C1B6CC02A01076B0077BA00 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				5C1B6C9C29F7C29B0077BA00 /* Response.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		5CF58EA829EFB1F400B623F5 /* Models */ = {
@@ -408,6 +427,7 @@
 				5C1B6CAF29FA4DE10077BA00 /* URLRequest+Encoding.swift in Sources */,
 				5CF58EB829F6394E00B623F5 /* NetworkError.swift in Sources */,
 				5C1B6CAB29FA363C0077BA00 /* Endpoint.swift in Sources */,
+				5C1B6CC22A0107B80077BA00 /* Validation.swift in Sources */,
 				5CF58EA729EFB13A00B623F5 /* APIProtocol.swift in Sources */,
 				5C1B6CB32A00CB520077BA00 /* Session.swift in Sources */,
 				5C1B6C9B29F7C2930077BA00 /* Request.swift in Sources */,

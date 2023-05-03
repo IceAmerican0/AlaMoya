@@ -19,7 +19,10 @@ open class Session {
     public let serverTrustManager: ServerTrustManager?
     public let redirectHandler: RedirectHandler?
     public let eventMonitor: CompositeEventMonitor
-    public let defaultEventMonitors: [EventMonitor] = 
+    public let defaultEventMonitors: [EventMonitor] = [Notifications()]
+    
+    var activeRequests: Set<Request> = []
+    var waitingCompletions: [URLSessionTask: () -> Void] = [:]
 }
 
 public protocol RequestDelegate: AnyObject {
