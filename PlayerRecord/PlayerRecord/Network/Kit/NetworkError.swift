@@ -18,12 +18,18 @@ public enum NetworkError: Error {
         case customEncodingFailed(error: Error)
     }
     
+    public enum URLRequestValidationFailureReason {
+        case bodyDataInGETRequest(Data)
+    }
+    
     case multipartEncodingFailed(reason: MultipartEncodingFailureReason)
     case parameterEncodingFailed(reason: ParameterEncodingFailureReason)
     case explicitlyCancelled
     case invalidURL(url: URLConvertible)
+    case requestRetryFailed(retryError: Error, originalError: Error)
     case requestMapping(String)
     case encodableMapping(Swift.Error)
+    case urlRequestValidationFailed(reason: URLRequestValidationFailureReason)
 //    case underlying(Swift.Error, Response?)
 }
 
@@ -55,6 +61,11 @@ extension NetworkError {
         if case .parameterEncodingFailed = self { return true }
         return false
     }
+    
+    public var isRequestRetryError: Bool {
+        if case .requestRetryFailed = self { return true }
+        return false
+    }
 }
 
 // MARK: - Convenience Properties
@@ -81,10 +92,13 @@ extension NetworkError {
             return reason.underlyingError
         case let .parameterEncodingFailed(reason):
             return reason.underlyingError
+        case let .requestRetryFailed(retryError, _):
+            return retryError
         case .explicitlyCancelled,
              .invalidURL,
              .encodableMapping,
-             .requestMapping:
+             .requestMapping,
+             .urlRequestValidationFailed:
             return nil
         }
     }
@@ -131,10 +145,17 @@ extension NetworkError: LocalizedError {
             return "Request explicitly cancelled."
         case let .invalidURL(url):
             return "URL is not valid: \(url)"
+        case let .requestRetryFailed(retryError, originalError):
+            return """
+            Request retry failed with retry error: \(retryError.localizedDescription), \
+            original error: \(originalError.localizedDescription)
+            """
         case .requestMapping:
             return "Failed to map Endpoint to a URLRequest."
         case .encodableMapping:
             return "Failed to encode Encodable object into data."
+        case let .urlRequestValidationFailed(reason):
+            return "URLRequest validation failed due to reason: \(reason.localizedDescription)"
         }
     }
 }
@@ -157,6 +178,18 @@ extension NetworkError.ParameterEncodingFailureReason {
             return "JSON could not be encoded because of error:\n\(error.localizedDescription)"
         case let .customEncodingFailed(error):
             return "Custom parameter encoder failed with error: \(error.localizedDescription)"
+        }
+    }
+}
+
+extension NetworkError.URLRequestValidationFailureReason {
+    var localizedDescription: String {
+        switch self {
+        case let .bodyDataInGETRequest(data):
+            return """
+            Invalid URLRequest: Requests with GET method cannot have body data:
+            \(String(decoding: data, as: UTF8.self))
+            """
         }
     }
 }

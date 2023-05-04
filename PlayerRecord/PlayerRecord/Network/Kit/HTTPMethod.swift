@@ -8,6 +8,8 @@
 public struct HTTPMethod: RawRepresentable, Equatable, Hashable {
     public static let get = HTTPMethod(rawValue: "GET")
     public static let post = HTTPMethod(rawValue: "POST")
+    public static let head = HTTPMethod(rawValue: "HEAD")
+    public static let delete = HTTPMethod(rawValue: "DELETE")
     
     public let rawValue: String
     

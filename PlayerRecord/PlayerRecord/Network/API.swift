@@ -71,39 +71,3 @@ public class API {
     }
     
 }
-
-public protocol URLConvertible {
-    func asURL() throws -> URL
-}
-
-extension String: URLConvertible {
-    public func asURL() throws -> URL {
-        let error: Error
-        guard let url = URL(string: self) else { throw error }
-
-        return url
-    }
-}
-
-public protocol URLRequestConvertible {
-    func asURLRequest() throws -> URLRequest
-}
-
-extension URLRequestConvertible {
-    public var urlRequest: URLRequest? { try? asURLRequest() }
-}
-
-extension URLRequest: URLRequestConvertible {
-    public func asURLRequest() throws -> URLRequest { self }
-}
-
-extension URLRequest {
-    public init(url: URLConvertible, headers: HTTPHeaders? = nil) throws {
-        let url = try url.asURL()
-        
-        self.init(url: url)
-        
-        httpMethod = "GET"
-        allHTTPHeaderFields = headers?.dictionary
-    }
-}

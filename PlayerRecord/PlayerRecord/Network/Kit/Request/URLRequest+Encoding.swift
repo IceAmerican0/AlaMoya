@@ -24,3 +24,16 @@ internal extension URLRequest {
         }
     }
 }
+
+extension URLRequest {
+    public var method: HTTPMethod? {
+        get { httpMethod.flatMap(HTTPMethod.init) }
+        set { httpMethod = newValue?.rawValue }
+    }
+    
+    public func validate() throws {
+        if method == .get, let bodyData = httpBody {
+            throw NetworkError.urlRequestValidationFailed(reason: .bodyDataInGETRequest(bodyData))
+        }
+    }
+}

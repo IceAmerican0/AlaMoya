@@ -23,12 +23,59 @@ open class Session {
     
     var activeRequests: Set<Request> = []
     var waitingCompletions: [URLSessionTask: () -> Void] = [:]
+    
+    public typealias RequestModifier = (inout URLRequest) throws -> Void
+    
+    struct RequestConvertible: URLRequestConvertible {
+        let url: URLConvertible
+        let method: HTTPMethod
+        let parameters: Parameters?
+        let encoding: ParameterEncoding
+        let headers: HTTPHeaders?
+        let requestModifier: RequestModifier?
+        
+        func asURLRequest() throws -> URLRequest {
+            var request = try URLRequest(url: url, method: method, headers: headers)
+            try requestModifier?(&request)
+            
+            return try encoding.encode(request, with: parameters)
+        }
+    }
+    
+    open func request(_ convertible: URLConvertible,
+                      method: HTTPMethod = .get, parameters: Parameters? = nil, encoding: ParameterEncoding = URLEncoding.default)
 }
 
-public protocol RequestDelegate: AnyObject {
-    var sessionConfiguration: URLSessionConfiguration { get }
-    var startImmediately: Bool { get }
-    var cleanup(after request )
+extension Session: RequestDelegate {
+    public var sessionConfiguration: URLSessionConfiguration {
+        session.configuration
+    }
+    
+    public var startImmediately: Bool { startRequestImmediately }
+    
+    public func cleanup(after request: Request) {
+        activeRequests.remove(request)
+    }
+    
+    public func retryResult(for request: Request, dueTo error: NetworkError, completion: @escaping (RetryResult) -> Void) {
+        guard let retrier = retrier(for: request) else {
+            rootQueue.async { completion(.doNotRetry) }
+            return
+        }
+        
+        retrier.retry(request, for: self, dueTo: error) { retryResult in
+            self.rootQueue.async {
+                guard let retryResultError = retryResult.error else { completion(retryResult); return }
+                
+                let retryError = NetworkError.requestRetryFailed(retryError: retryResultError, originalError: error)
+                completion(.doNotRetryWithError(retryError))
+            }
+        }
+    }
+    
+    public func retryResult(_ request: Request, withDelay timeDelay: TimeInterval?) {
+        
+    }
 }
 
 // MARK: - SessionStateProvider

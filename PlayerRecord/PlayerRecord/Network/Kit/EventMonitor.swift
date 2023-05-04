@@ -13,7 +13,7 @@ public protocol EventMonitor {
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?)
     func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask)
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?)
-    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive data: Data)
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge)
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse)
     
     func request(_ request: DataRequest, didValidateRequest urlRequest: URLRequest?, response: HTTPURLResponse, data: Data?, withResult result: Request.ValidationResult)
@@ -23,6 +23,8 @@ public protocol EventMonitor {
     func request(_ request: Request, didResumeTask task: URLSessionTask)
     func request(_ request: Request, didSuspendTask task: URLSessionTask)
     func request(_ request: Request, didCancelTask task: URLSessionTask)
+    func request(_ request: Request, didFailTask task: URLSessionTask, earlyWithError error: NetworkError)
+    func request(_ request: Request, didCompleteTask task: URLSessionTask, with error: NetworkError?)
     func requestIsRetrying(_ request: Request)
     func requestDidFinish(_ request: Request)
     func requestDidResume(_ request: Request)
@@ -36,7 +38,7 @@ extension EventMonitor {
     public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {}
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {}
     public func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {}
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive data: Data) {}
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge) {}
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse) {}
     
     public func request(_ request: DataRequest, didValidateRequest urlRequest: URLRequest?, response: HTTPURLResponse, data: Data?, withResult result: Request.ValidationResult) {}
@@ -46,6 +48,8 @@ extension EventMonitor {
     public func request(_ request: Request, didResumeTask task: URLSessionTask) {}
     public func request(_ request: Request, didSuspendTask task: URLSessionTask) {}
     public func request(_ request: Request, didCancelTask task: URLSessionTask) {}
+    public func request(_ request: Request, didFailTask task: URLSessionTask, earlyWithError error: NetworkError) {}
+    public func request(_ request: Request, didCompleteTask task: URLSessionTask, with error: NetworkError?) {}
     public func requestIsRetrying(_ request: Request) {}
     public func requestDidFinish(_ request: Request) {}
     public func requestDidResume(_ request: Request) {}
@@ -82,8 +86,8 @@ public final class CompositeEventMonitor: EventMonitor {
         performEvent { $0.urlSession(session, task: task, didCompleteWithError: error) }
     }
     
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive data: Data) {
-        performEvent { $0.urlSession(session, task: task, didReceive: data) }
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge) {
+        performEvent { $0.urlSession(session, task: task, didReceive: challenge) }
     }
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse) {
@@ -116,6 +120,14 @@ public final class CompositeEventMonitor: EventMonitor {
     
     public func request(_ request: Request, didCancelTask task: URLSessionTask) {
         performEvent { $0.request(request, didCancelTask: task) }
+    }
+    
+    public func request(_ request: Request, didFailTask task: URLSessionTask, earlyWithError error: NetworkError) {
+        performEvent { $0.request(request, didFailTask: task, earlyWithError: error) }
+    }
+    
+    public func request(_ request: Request, didCompleteTask task: URLSessionTask, with error: NetworkError?) {
+        performEvent { $0.request(request, didCompleteTask: task, with: error) }
     }
     
     public func requestIsRetrying(_ request: Request) {
