@@ -1,9 +1,44 @@
+# AlaMoya (Alamofire + Moya) Study
+
+통신 API 구축 중 JSON 통신 관련 제대로 공부해보기위해 Alamofire/Moya/kakaoSDK(URL) 소스 파보는(삽질)중.
+
+## 구성
+
+### Session
+
+
+#### SessionDelegate
+
+
+#### RequestInterceptor
+
+
+#### ServerTrustManager
+
+
+
+
+
+### EventMonitor
+
+
+
+### NetworkError
+
+
+
+### Request
+
+
+
+### Response
+
+
+
+
 # Project
 
 OP.GG / r6Tracker 등과 같은 전적검색앱을 만들어 나갈 예정.
-
-통신 API 구축 중 JSON 통신 관련 제대로 공부해보기위해 Alamofire/Moya/kakaoSDK 소스 파보는(삽질)중.
-
 
 
 Player Info
